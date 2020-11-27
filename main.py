@@ -20,6 +20,14 @@ class MainWindow(QMainWindow):
             self.move(self.mapToParent(event.pos() - self.__startPos))
         super(MainWindow, self).mouseMoveEvent(event)
 
+    def nextDir(self, item):
+        model_old = item.model()
+        model_new = QFileSystemModel()
+        path_new = model_old.filePath(item)
+        model_new.setRootPath(path_new)
+        self.ui.listView.setModel(model_new)
+        self.ui.listView.setRootIndex(model_new.index(path_new))
+
     def __init__(self, parent = None):
         self.__isDrag = False
         self.__startPos = QtCore.QPoint(0,0)
@@ -29,6 +37,12 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.menubar.addMenu('File')
+
+        #ディレクトリ関連の処理
+        self.ui.listView.clicked.connect(self.nextDir)
+    
+    
+
 
 #実行処理
 if __name__=="__main__":

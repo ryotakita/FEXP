@@ -21,7 +21,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(800, 600)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.listView = QTreeView(self.centralwidget)
+        self.listView = QListView(self.centralwidget)
         self.listView.setObjectName(u"listView")
         self.listView.setGeometry(QRect(30, 10, 256, 192))
         self.pushButton = QPushButton(self.centralwidget)
@@ -39,10 +39,11 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        slist = os.listdir(os.getcwd())
         model = QFileSystemModel()
-        model.setRootPath(os.getcwd())
+        path = 'C://'
+        model.setRootPath(path)
         self.listView.setModel(model)
+        self.listView.setRootIndex(model.index(path))
 
         self.retranslateUi(MainWindow)
 
