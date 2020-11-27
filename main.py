@@ -39,6 +39,9 @@ class MainWindow(QMainWindow):
         model_new.setRootPath(path_root)
         self.ui.listView.setModel(model_new)
         self.ui.listView.setRootIndex(model_new.index(path_root))
+    
+    def printu(self):
+        print('true')
 
     def __init__(self, parent = None):
         self.__isDrag = False
@@ -51,8 +54,9 @@ class MainWindow(QMainWindow):
         self.ui.menubar.addMenu('File')
 
         #ディレクトリ関連の処理
-        self.ui.listView.clicked.connect(self.nextDir)
+        self.ui.listView.leftClicked.connect(self.printu)
         self.ui.listView.rightClicked.connect(self.returnDir)
+        self.ui.listView.doubleClicked.connect(self.nextDir)
 
     
 
@@ -66,6 +70,7 @@ if __name__=="__main__":
     # ウィンドウ消し
     window.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint | QtCore.Qt.FramelessWindowHint)
     window.setStyleSheet("background-color:rgb(50,50,100,150);")
+    window.ui.listView.setStyleSheet("color: #c0c0c0")
     #MainWindowの表示
     window.show()
 
