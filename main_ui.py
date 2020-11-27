@@ -16,15 +16,15 @@ import os
 
 class QListDir(QListView):
     rightClicked = Signal(QModelIndex)
-    doubleClicked = Signal(QModelIndex)
+    backClicked = Signal(QModelIndex)
     leftClicked = Signal(QModelIndex)
-    def mouseDoubleClickEvent(self, e):
-        self.doubleClicked.emit(self.indexAt(e.pos()))
     def mouseReleaseEvent(self, e):
         if e.button() == Qt.RightButton:
             self.rightClicked.emit(self.indexAt(e.pos()))
         elif e.button() == Qt.LeftButton:
             self.leftClicked.emit(self.indexAt(e.pos()))
+        elif e.button() == Qt.BackButton:
+            self.backClicked.emit(self.indexAt(e.pos()))
         else:
             super(QListView, self).mouseReleaseEvent(e)
 class Ui_MainWindow(object):

@@ -41,15 +41,21 @@ class MainWindow(QMainWindow):
         self.ui.listView.setRootIndex(model_new.index(path_root))
     
     def addTarget(self,item):
-        str_file = self.ui.listView.model().fileName(item)
+        model_file = self.ui.listView.model()
+        str_file = model_file.fileName(item)
         str_list = self.ui.listTarget.model().stringList()
         str_list.append(str_file)
         self.ui.listTarget.model().setStringList(str_list)
+        self.__list_path_of_target.append([model_file.filePath(item), len(str_list)])
+        print(self.__list_path_of_target)
         
 
     def __init__(self, parent = None):
         self.__isDrag = False
         self.__startPos = QtCore.QPoint(0,0)
+
+        #listTargetの内部データ保持リスト
+        self.__list_path_of_target = []
 
         #UI初期化処理
         super(MainWindow, self).__init__()
@@ -58,9 +64,9 @@ class MainWindow(QMainWindow):
         self.ui.menubar.addMenu('File')
 
         #ディレクトリ関連の処理
-        self.ui.listView.leftClicked.connect(self.addTarget)
-        self.ui.listView.rightClicked.connect(self.returnDir)
-        self.ui.listView.doubleClicked.connect(self.nextDir)
+        self.ui.listView.leftClicked.connect(self.nextDir)
+        self.ui.listView.rightClicked.connect(self.addTarget)
+        self.ui.listView.backClicked.connect(self.returnDir)
 
     
 
