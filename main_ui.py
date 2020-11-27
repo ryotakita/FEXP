@@ -17,14 +17,14 @@ import os
 class QListDir(QListView):
     rightClicked = Signal(QModelIndex)
     doubleClicked = Signal(QModelIndex)
-    leftClicked = Signal()
+    leftClicked = Signal(QModelIndex)
     def mouseDoubleClickEvent(self, e):
         self.doubleClicked.emit(self.indexAt(e.pos()))
     def mouseReleaseEvent(self, e):
         if e.button() == Qt.RightButton:
             self.rightClicked.emit(self.indexAt(e.pos()))
         elif e.button() == Qt.LeftButton:
-            self.leftClicked.emit()
+            self.leftClicked.emit(self.indexAt(e.pos()))
         else:
             super(QListView, self).mouseReleaseEvent(e)
 class Ui_MainWindow(object):
@@ -34,6 +34,16 @@ class Ui_MainWindow(object):
         MainWindow.resize(800, 600)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+
+        self.title = QLabel(self.centralwidget)
+        self.title.setText("PDFMerger")
+        self.title.setObjectName(u"title")
+        self.title.setGeometry(QRect(20,490,300,70))
+        self.title.setStyleSheet("font-family: Source Han Code JP; \
+                                  font-size: 50px; \
+                                  font-weight: bold; \
+                                  color: rgb(255,255,255,30); \
+                                  ")
 
         self.listView = QListDir(self.centralwidget)
         self.listView.setObjectName(u"listView")

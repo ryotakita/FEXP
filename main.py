@@ -40,8 +40,9 @@ class MainWindow(QMainWindow):
         self.ui.listView.setModel(model_new)
         self.ui.listView.setRootIndex(model_new.index(path_root))
     
-    def printu(self):
-        print('true')
+    def addTarget(self,item):
+        self.ui.listTarget.model.appendRow(QStandardItem)
+        
 
     def __init__(self, parent = None):
         self.__isDrag = False
@@ -54,7 +55,7 @@ class MainWindow(QMainWindow):
         self.ui.menubar.addMenu('File')
 
         #ディレクトリ関連の処理
-        self.ui.listView.leftClicked.connect(self.printu)
+        self.ui.listView.leftClicked.connect(self.addTarget)
         self.ui.listView.rightClicked.connect(self.returnDir)
         self.ui.listView.doubleClicked.connect(self.nextDir)
 
