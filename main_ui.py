@@ -14,6 +14,14 @@ from PySide2.QtWidgets import *
 import os
 
 
+class QListDir(QListView):
+    rightClicked = Signal(QTreeView)
+    doubleCliked = Signal()
+    def mouseReleaseEvent(self, e):
+        if e.button() == Qt.RightButton:
+            self.rightClicked.emit(self.indexAt(e.pos()))
+        else:
+            super(QListView, self).mouseReleaseEvent(e)
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
@@ -22,15 +30,13 @@ class Ui_MainWindow(object):
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
 
-        self.listView = QTreeView(self.centralwidget)
+        self.listView = QListDir(self.centralwidget)
         self.listView.setObjectName(u"listView")
         self.listView.setGeometry(QRect(30, 10, 700, 192))
-        self.listView.header().setStretchLastSection(False)
         #self.listView.header().setSectionResizeMode(0, QHeaderView.Stretch)
         #self.listView.header().setSectionResizeMode(1, QHeaderView.ResizeToContents)
         #self.listView.header().setSectionResizeMode(2, QHeaderView.ResizeToContents)
         #self.listView.header().setSectionResizeMode(3, QHeaderView.ResizeToContents)
-        self.listView.setHeaderHidden(True)
 
         self.pushButton = QPushButton(self.centralwidget)
         self.pushButton.setObjectName(u"pushButton")
