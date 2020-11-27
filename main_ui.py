@@ -52,6 +52,8 @@ class Ui_MainWindow(object):
         self.listTarget = QListView(self.centralwidget)
         self.listTarget.setObjectName(u"listTarget")
         self.listTarget.setGeometry(QRect(430, 220, 300, 192))
+        model = QStringListModel()
+        self.listTarget.setModel(model)
 
         self.pushButton = QPushButton(self.centralwidget)
         self.pushButton.setObjectName(u"pushButton")

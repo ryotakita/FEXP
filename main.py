@@ -41,7 +41,10 @@ class MainWindow(QMainWindow):
         self.ui.listView.setRootIndex(model_new.index(path_root))
     
     def addTarget(self,item):
-        self.ui.listTarget.model.appendRow(QStandardItem)
+        str_file = self.ui.listView.model().fileName(item)
+        str_list = self.ui.listTarget.model().stringList()
+        str_list.append(str_file)
+        self.ui.listTarget.model().setStringList(str_list)
         
 
     def __init__(self, parent = None):
