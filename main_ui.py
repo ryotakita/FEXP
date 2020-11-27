@@ -56,11 +56,13 @@ class Ui_MainWindow(object):
         self.listTarget.setModel(model)
 
         self.pushButton = QPushButton(self.centralwidget)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(40, 220, 75, 23))
+        self.pushButton.setObjectName(u"createPDFFile")
+        self.pushButton.setGeometry(QRect(40, 220, 120, 30))
+        self.pushButton.setText('createPDFFile')
+
         self.pushButton_2 = QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setGeometry(QRect(120, 220, 75, 23))
+        self.pushButton_2.setGeometry(QRect(200, 220, 120, 30))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -83,7 +85,12 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"CreatePDFFile", None))
+        self.pushButton.setStyleSheet("font-family: Source Han Code JP; \
+                                        font-weight: bold; \
+                                        color: #c0c0c0; \
+                                        background-color:rgb(50,50,50,150); \
+                                        ")
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
     # retranslateUi
 

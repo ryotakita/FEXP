@@ -3,6 +3,7 @@ import sys
 from main_ui import Ui_MainWindow
 from PySide2 import QtCore, QtGui
 from PySide2.QtWidgets import *
+import os
 
 class MainWindow(QMainWindow):
     #Ui_MainWindow生成のための初期化処理
@@ -46,9 +47,25 @@ class MainWindow(QMainWindow):
         str_list = self.ui.listTarget.model().stringList()
         str_list.append(str_file)
         self.ui.listTarget.model().setStringList(str_list)
-        self.__list_path_of_target.append([model_file.filePath(item), len(str_list)])
+        self.__list_path_of_target.append([model_file.filePath(item), model_file.isDir(item), len(str_list)])
         print(self.__list_path_of_target)
-        
+    
+    def createPDF(self):
+        for file_or_dir, isDir, _ in self.__list_path_of_target:
+            if isDir:
+                files = os.listdir(file_or_dir)
+                print(files)
+                for file in files:
+                    pass
+                    print (file)
+                    #os.system('powershell -File powershell.ps1 ' + file + " " + )
+            else:
+                print(file_or_dir)
+                file = file_or_dir.rsplit("/",1)[1]
+                print(file)
+                os.system('powershell -File powershell.ps1 ' + file + " " + file_or_dir)
+
+
 
     def __init__(self, parent = None):
         self.__isDrag = False
@@ -67,6 +84,7 @@ class MainWindow(QMainWindow):
         self.ui.listView.leftClicked.connect(self.nextDir)
         self.ui.listView.rightClicked.connect(self.addTarget)
         self.ui.listView.backClicked.connect(self.returnDir)
+        self.ui.pushButton.clicked.connect(self.createPDF)
 
     
 
