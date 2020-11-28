@@ -12,6 +12,7 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 import os
+import json
 
 
 class QListDir(QListView):
@@ -72,16 +73,31 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        model = QFileSystemModel()
-        path = 'C://'
-        model.setRootPath(path)
-        self.listView.setModel(model)
-        self.listView.setRootIndex(model.index(path))
+        self.setting_list_dir(self.listView)
+
+
 
         self.retranslateUi(MainWindow)
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
+
+    def get_json_setting(self, file_name):
+        file = open(file_name, 'r')
+        json_file = json.load(file)
+        return json_file 
+
+    # setting_of_listDir
+    def setting_list_dir(self, list_dir):
+        model = QFileSystemModel()
+
+        #setting_rootPath
+        json_file = self.get_json_setting('setting.json')
+        path = json_file['setting']['rootPath']
+        model.setRootPath(path)
+        list_dir.setModel(model)
+        list_dir.setRootIndex(model.index(path))
+
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
