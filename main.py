@@ -25,6 +25,8 @@ class MainWindow(QMainWindow):
     def nextDir(self, item):
         model_old = item.model()
         model_new = QFileSystemModel()
+        if not model_new.isDir(item) : return
+
         path_new = model_old.filePath(item)
         model_new.setRootPath(path_new)
         self.ui.listView.setModel(model_new)
