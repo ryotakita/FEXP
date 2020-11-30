@@ -68,7 +68,11 @@ class MainWindow(QMainWindow):
                 print(file)
                 os.system('powershell -File powershell.ps1 ' + file + " " + file_or_dir)
         
+        
     def mergePDF(self):
+        dialog = QInputDialog()
+        file_name = dialog.getText(self, 'MergedFileName', 'マージしたファイルの名前を指定してください。')[0]
+        if not file_name : file_name = "merged_file"
         pdf_writer = PdfFileWriter()
         for file in self.__list_path_of_target:
                 if( 'doc' in file ) : continue
@@ -79,7 +83,7 @@ class MainWindow(QMainWindow):
                     pdf_writer.addPage(pdf_reader.getPage(page))
 
         # Write out the merged PDF
-        with open(self.__list_path_of_target[0][0].rsplit('/',1)[0] + '/' + 'merged' + '.pdf', 'wb') as out:
+        with open(self.__list_path_of_target[0][0].rsplit('/',1)[0] + '/' + file_name + '.pdf', 'wb') as out:
             pdf_writer.write(out)
 
 

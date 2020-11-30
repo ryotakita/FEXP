@@ -45,6 +45,11 @@ class Ui_MainWindow(object):
                                   color: rgb(255,255,255,30); \
                                   ")
 
+        self.log = QTextEdit(self.centralwidget)
+        self.log.setObjectName(u"log")
+        self.log.setGeometry(QRect(40,270,350,140))
+        self.log.setReadOnly(True)
+
         self.listView = QListDir(self.centralwidget)
         self.listView.setObjectName(u"listView")
         self.listView.setGeometry(QRect(30, 10, 700, 192))
