@@ -54,22 +54,27 @@ class MainWindow(QMainWindow):
         print(self.__list_path_of_target)
     
     def createPDF(self):
+        #Logの初期化
+        self.ui.log.setText("")
         for file_or_dir, isDir, _ in self.__list_path_of_target:
             if isDir:
                 files = os.listdir(file_or_dir)
-                print(files)
                 for file in files:
                     pass
-                    print (file)
                     #os.system('powershell -File powershell.ps1 ' + file + " " + )
             else:
                 print(file_or_dir)
                 file = file_or_dir.rsplit("/",1)[1]
                 print(file)
                 os.system('powershell -File powershell.ps1 ' + file + " " + file_or_dir)
+                log_message = self.ui.log.toPlainText()
+                log_message = log_message + (file  + "をPDFに変換しました。\n")
+                print(log_message)
+                self.ui.log.setText(log_message)
         
         
     def mergePDF(self):
+        self.ui.log.setText("")
         dialog = QInputDialog()
         file_name = dialog.getText(self, 'MergedFileName', 'マージしたファイルの名前を指定してください。')[0]
         if not file_name : file_name = "merged_file"
@@ -81,6 +86,9 @@ class MainWindow(QMainWindow):
                 for page in range(pdf_reader.getNumPages()):
                     # Add each page to the writer object
                     pdf_writer.addPage(pdf_reader.getPage(page))
+        log_message = self.ui.log.toPlainText()
+        log_message = log_message + ("結合しました。 ファイル名:" + file_name) 
+        self.ui.log.setText(log_message)
 
         # Write out the merged PDF
         with open(self.__list_path_of_target[0][0].rsplit('/',1)[0] + '/' + file_name + '.pdf', 'wb') as out:
