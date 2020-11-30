@@ -3,6 +3,7 @@ import sys
 from main_ui import Ui_MainWindow
 from PySide2 import QtCore, QtGui
 from PySide2.QtWidgets import *
+from PyPDF2 import PdfFileReader, PdfFileWriter
 import os
 
 class MainWindow(QMainWindow):
@@ -64,6 +65,20 @@ class MainWindow(QMainWindow):
                 file = file_or_dir.rsplit("/",1)[1]
                 print(file)
                 os.system('powershell -File powershell.ps1 ' + file + " " + file_or_dir)
+        
+    def mergePDF(self):
+        pdf_writer = PdfFileWriter()
+        for file in self.__list_path_of_target:
+                if( 'doc' in file ) : continue
+                print(file)
+                pdf_reader = PdfFileReader(file[0])
+                for page in range(pdf_reader.getNumPages()):
+                    # Add each page to the writer object
+                    pdf_writer.addPage(pdf_reader.getPage(page))
+
+        # Write out the merged PDF
+        with open(self.__list_path_of_target[0][0].rsplit('/',1)[0] + '/' + 'merged' + '.pdf', 'wb') as out:
+            pdf_writer.write(out)
 
 
 
@@ -85,6 +100,7 @@ class MainWindow(QMainWindow):
         self.ui.listView.rightClicked.connect(self.addTarget)
         self.ui.listView.backClicked.connect(self.returnDir)
         self.ui.pushButton.clicked.connect(self.createPDF)
+        self.ui.pushButton_2.clicked.connect(self.mergePDF)
 
     
 
@@ -96,7 +112,7 @@ if __name__=="__main__":
     #オブジェクト作成
     window = MainWindow()
     # ウィンドウ消し
-    window.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint | QtCore.Qt.FramelessWindowHint)
+    window.setWindowFlags(QtCore.Qt.FramelessWindowHint)
     window.setStyleSheet("background-color:rgb(50,50,100,150);")
     window.ui.listView.setStyleSheet("color: #c0c0c0")
     #MainWindowの表示

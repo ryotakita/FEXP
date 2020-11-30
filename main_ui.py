@@ -63,6 +63,7 @@ class Ui_MainWindow(object):
         self.pushButton_2 = QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName(u"pushButton_2")
         self.pushButton_2.setGeometry(QRect(200, 220, 120, 30))
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -91,6 +92,11 @@ class Ui_MainWindow(object):
                                         color: #c0c0c0; \
                                         background-color:rgb(50,50,50,150); \
                                         ")
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.pushButton_2.setStyleSheet("font-family: Source Han Code JP; \
+                                        font-weight: bold; \
+                                        color: #c0c0c0; \
+                                        background-color:rgb(50,50,50,150); \
+                                        ")
+        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"MergePDFFile", None))
     # retranslateUi
 
