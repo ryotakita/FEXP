@@ -28,11 +28,12 @@ class QListDir(QListView):
             self.backClicked.emit(self.indexAt(e.pos()))
         else:
             super(QListView, self).mouseReleaseEvent(e)
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(1000, 600)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
 
@@ -80,6 +81,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.setting_list_dir(self.listView)
+
 
 
 

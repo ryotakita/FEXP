@@ -50,9 +50,30 @@ class MainWindow(QMainWindow):
         str_list = self.ui.listTarget.model().stringList()
         str_list.append(str_file)
         self.ui.listTarget.model().setStringList(str_list)
-        self.__list_path_of_target.append([model_file.filePath(item), model_file.isDir(item), len(str_list)])
+
+        dockWidget = QDockWidget("Dock Window", self)
+        dockWrapper = QWidget()
+        dockWidget.setWidget(dockWrapper)
+        dockLayout = QVBoxLayout()
+        dockWrapper.setLayout(dockLayout)
+        dockLabel_file = QLabel("ファイル名:")
+        dockDescription_file = QLabel(str_file)
+        dockLabel = QLabel("ページ指定:")
+        dockDescription = QLineEdit()
+        dockAlert = QLabel("※ページ指定はPDF作成時には考慮されません。")
+        dockLayout.addWidget(dockLabel_file)
+        dockLayout.addWidget(dockDescription_file)
+        dockLayout.addWidget(dockLabel)
+        dockLayout.addWidget(dockDescription)
+        dockLayout.addWidget(dockAlert)
+        dockButton = QPushButton("OK")
+        dockLayout.addWidget(dockButton)
+        dockLayout.addStretch()
+        dockWidget.setAllowedAreas(QtCore.Qt.RightDockWidgetArea | QtCore.Qt.BottomDockWidgetArea)
+        self.__list_path_of_target.append([model_file.filePath(item), model_file.isDir(item) 
+                                         , len(str_list), dockWidget])
         print(self.__list_path_of_target)
-    
+
     def createPDF(self):
         #Logの初期化
         self.ui.log.setText("")
@@ -71,7 +92,7 @@ class MainWindow(QMainWindow):
                 log_message = log_message + (file  + "をPDFに変換しました。\n")
                 print(log_message)
                 self.ui.log.setText(log_message)
-        
+        self.clearTarget()
         
     def mergePDF(self):
         self.ui.log.setText("")
@@ -86,13 +107,28 @@ class MainWindow(QMainWindow):
                 for page in range(pdf_reader.getNumPages()):
                     # Add each page to the writer object
                     pdf_writer.addPage(pdf_reader.getPage(page))
-        log_message = self.ui.log.toPlainText()
-        log_message = log_message + ("結合しました。 ファイル名:" + file_name) 
-        self.ui.log.setText(log_message)
 
         # Write out the merged PDF
         with open(self.__list_path_of_target[0][0].rsplit('/',1)[0] + '/' + file_name + '.pdf', 'wb') as out:
             pdf_writer.write(out)
+        log_message = self.ui.log.toPlainText()
+        log_message = log_message + ("結合しました。 ファイル名:" + file_name) 
+        self.ui.log.setText(log_message)
+        self.clearTarget()
+        
+    def clearTarget(self):
+        self.__list_path_of_target.clear()
+        model_empty = QtCore.QStringListModel()
+        self.ui.listTarget.setModel(model_empty)
+    
+    def showDock(self,item):
+        #表示されている全てのdockをhiddenする
+        for _, _, _, dock in self.__list_path_of_target:
+            dock.hide()
+        dock_this = self.__list_path_of_target[item.row()][3] 
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, dock_this)
+        dock_this.show()
+
 
 
 
@@ -115,6 +151,7 @@ class MainWindow(QMainWindow):
         self.ui.listView.backClicked.connect(self.returnDir)
         self.ui.pushButton.clicked.connect(self.createPDF)
         self.ui.pushButton_2.clicked.connect(self.mergePDF)
+        self.ui.listTarget.clicked.connect(self.showDock)
 
     
 
@@ -127,7 +164,7 @@ if __name__=="__main__":
     window = MainWindow()
     # ウィンドウ消し
     window.setWindowFlags(QtCore.Qt.FramelessWindowHint)
-    window.setStyleSheet("background-color:rgb(50,50,100,150);")
+    window.setStyleSheet("background-color:rgb(100,100,100,150);")
     window.ui.listView.setStyleSheet("color: #c0c0c0")
     #MainWindowの表示
     window.show()
