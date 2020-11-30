@@ -6,11 +6,11 @@ $word = NEW-OBJECT -COMOBJECT WORD.APPLICATION
     #$doc = $word.Documents.OpenNoRepairDialog($file.FullName)
     #$doc.SaveAs([ref] $file.FullName.Replace(".doc",".pdf"),[ref] 17)
     #$doc.Close()
-    #Write-Host "$($file.FullName)‚ğPDF•ÏŠ·‚µ‚Ü‚µ‚½"        
+    #Write-Host "$($file.FullName)ã‚’PDFå¤‰æ›ã—ã¾ã—ãŸ"        
 #}
 #catch
 #{
-    #Write-Host "[ERROR]$($file.FullName)‚ÌPDF•ÏŠ·‚É¸”s‚µ‚Ü‚µ‚½"
+    #Write-Host "[ERROR]$($file.FullName)ã®PDFå¤‰æ›ã«å¤±æ•—ã—ã¾ã—ãŸ"
 #}
 
 
@@ -26,7 +26,7 @@ try
 }
 catch
 {
-    Write-Host "[ERROR]$($file)‚ÌPDF•ÏŠ·‚É¸”s‚µ‚Ü‚µ‚½"
+    Write-Host "[ERROR]$($file)ã®PDFå¤‰æ›ã«å¤±æ•—ã—ã¾ã—ãŸ"
 }
 
 $word.Quit()
